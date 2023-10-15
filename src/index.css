@@ -22,10 +22,21 @@ body {
   background-color: silver;
 }
 
+h1 {
+  margin: 2rem;
+  text-align: center;
+}
+
 ul {
   display: flex;
   list-style: none;
   gap: 2rem;
   margin: 2rem;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  border: 2px solid black;
+  padding: 4rem;
 }

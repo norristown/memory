@@ -6,7 +6,6 @@ export default function App() {
   }
 
   const [apiItems, setApiItems] = useState([]);
-  const randomApiItems = shuffleArray(apiItems);
 
   useEffect(function () {
     async function fetchAPI() {
@@ -19,7 +18,7 @@ export default function App() {
         const obj = { name, image };
         arr.push(obj);
       }
-      setApiItems(arr);
+      setApiItems(shuffleArray(arr));
     }
     fetchAPI();
   }, []);
@@ -43,7 +42,7 @@ function CardList({ apiItems }) {
 
 function Card({ item }) {
   return (
-    <li>
+    <li className="card">
       <img src={item.image} alt={`${item.name} poster`} />
       <h3>{item.name}</h3>
       <div>
