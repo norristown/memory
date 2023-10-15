@@ -39,4 +39,6 @@ ul {
 .card {
   border: 2px solid black;
   padding: 4rem;
+  text-align: center;
+  cursor: pointer;
 }

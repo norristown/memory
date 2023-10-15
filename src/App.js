@@ -22,35 +22,37 @@ export default function App() {
     }
     fetchAPI();
   }, []);
+
+  function handleClick(e) {
+    console.log(e.target.closest(".card"));
+  }
+
   return (
     <div className="app">
       <Header />
-      <CardList apiItems={apiItems} />
+      <CardList apiItems={apiItems} onHandleClick={handleClick} />
     </div>
   );
 }
 
-function CardList({ apiItems }) {
+function CardList({ apiItems, onHandleClick }) {
   return (
     <ul>
       {apiItems.map((item) => (
-        <Card item={item} key={item.name} />
+        <Card item={item} key={item.name} onHandleClick={onHandleClick} />
       ))}
     </ul>
   );
 }
 
-function Card({ item }) {
+function Card({ item, onHandleClick }) {
   return (
-    <li className="card">
-      <img src={item.image} alt={`${item.name} poster`} />
-      <h3>{item.name}</h3>
-      <div>
-        <p>
-          <span>Text</span>
-        </p>
-      </div>
-    </li>
+    <div className="card" value={item.name} onClick={onHandleClick}>
+      <li>
+        <img src={item.image} alt={`${item.name} card`} />
+        <h3>{item.name}</h3>
+      </li>
+    </div>
   );
 }
 
