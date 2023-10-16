@@ -29,16 +29,10 @@ export default function App() {
   function handleClick(e) {
     const selected = e.target.closest(".card").getAttribute("value");
 
-    // const newArr = apiItems.filter(
-    //   (item) => item.name !== e.target.closest(".card").getAttribute("value")
-    // );
-
     if (clickedItems.includes(selected)) {
-      console.log("reset");
       resetGame();
       handleBestScore();
     } else {
-      console.log(clickedItems);
       handleScore(selected);
     }
   }
