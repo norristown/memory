@@ -6,6 +6,7 @@ export default function App() {
   }
 
   const [apiItems, setApiItems] = useState([]);
+  const [clickedItems, setClickedItems] = useState([]);
 
   useEffect(function () {
     async function fetchAPI() {
@@ -24,7 +25,11 @@ export default function App() {
   }, []);
 
   function handleClick(e) {
-    console.log(e.target.closest(".card"));
+    clickedItems.push(e.target.closest(".card").getAttribute("value"));
+    const newArr = apiItems.filter(
+      (item) => item.name !== e.target.closest(".card").getAttribute("value")
+    );
+    setApiItems(shuffleArray(newArr));
   }
 
   return (
@@ -50,7 +55,7 @@ function Card({ item, onHandleClick }) {
     <div className="card" value={item.name} onClick={onHandleClick}>
       <li>
         <img src={item.image} alt={`${item.name} card`} />
-        <h3>{item.name}</h3>
+        <h3 className="name">{item.name}</h3>
       </li>
     </div>
   );
