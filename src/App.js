@@ -66,8 +66,15 @@ function Card({ item, onHandleClick }) {
 function Header() {
   return (
     <div className="header">
-      <h1>Memory Card</h1>
-      <h4>Don't Pick The Same Card Twice!</h4>
+      <div className="header-container">
+        <h1>Memory Card</h1>
+        <h4>Don't Pick The Same Card Twice!</h4>
+      </div>
+
+      <div className="scoreBoard">
+        <h4 className="currentScore">Current Score: 0</h4>
+        <h4 className="bestScore">Best Score: 00</h4>
+      </div>
     </div>
   );
 }
