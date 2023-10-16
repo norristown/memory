@@ -22,7 +22,7 @@ body {
   background-color: silver;
 }
 
-h1 {
+.header {
   margin: 2rem;
   text-align: center;
 }

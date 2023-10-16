@@ -7,6 +7,8 @@ export default function App() {
 
   const [apiItems, setApiItems] = useState([]);
   const [clickedItems, setClickedItems] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
 
   useEffect(function () {
     async function fetchAPI() {
@@ -26,10 +28,10 @@ export default function App() {
 
   function handleClick(e) {
     clickedItems.push(e.target.closest(".card").getAttribute("value"));
-    const newArr = apiItems.filter(
-      (item) => item.name !== e.target.closest(".card").getAttribute("value")
-    );
-    setApiItems(shuffleArray(newArr));
+    // const newArr = apiItems.filter(
+    //   (item) => item.name !== e.target.closest(".card").getAttribute("value")
+    // );
+    setApiItems(shuffleArray(apiItems));
   }
 
   return (
@@ -62,5 +64,10 @@ function Card({ item, onHandleClick }) {
 }
 
 function Header() {
-  return <h1>Memory Card</h1>;
+  return (
+    <div className="header">
+      <h1>Memory Card</h1>
+      <h4>Don't Pick The Same Card Twice!</h4>
+    </div>
+  );
 }
