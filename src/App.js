@@ -10,7 +10,7 @@ export default function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
 
-  useEffect(function () {
+  useEffect(() => {
     async function fetchAPI() {
       const arr = [];
       for (let i = 1; i < 20; i++) {
@@ -27,16 +27,44 @@ export default function App() {
   }, []);
 
   function handleClick(e) {
-    clickedItems.push(e.target.closest(".card").getAttribute("value"));
+    const selected = e.target.closest(".card").getAttribute("value");
+
     // const newArr = apiItems.filter(
     //   (item) => item.name !== e.target.closest(".card").getAttribute("value")
     // );
+
+    if (clickedItems.includes(selected)) {
+      console.log("reset");
+      resetGame();
+      handleBestScore();
+    } else {
+      console.log(clickedItems);
+      handleScore(selected);
+    }
+  }
+
+  function handleScore(selected) {
+    setScore((x) => x + 1);
+    clickedItems.push(selected);
     setApiItems(shuffleArray(apiItems));
+  }
+
+  function handleBestScore() {
+    if (score > bestScore) {
+      setBestScore(score);
+    } else {
+      setBestScore(bestScore);
+    }
+  }
+
+  function resetGame() {
+    setApiItems(shuffleArray(apiItems));
+    setScore(0);
   }
 
   return (
     <div className="app">
-      <Header />
+      <Header score={score} bestScore={bestScore} />
       <CardList apiItems={apiItems} onHandleClick={handleClick} />
     </div>
   );
@@ -63,7 +91,7 @@ function Card({ item, onHandleClick }) {
   );
 }
 
-function Header() {
+function Header({ score, bestScore }) {
   return (
     <div className="header">
       <div className="header-container">
@@ -72,8 +100,8 @@ function Header() {
       </div>
 
       <div className="scoreBoard">
-        <h4 className="currentScore">Current Score: 0</h4>
-        <h4 className="bestScore">Best Score: 00</h4>
+        <h4 className="currentScore">Current Score: {score}</h4>
+        <h4 className="bestScore">Best Score: {bestScore}</h4>
       </div>
     </div>
   );
