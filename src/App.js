@@ -54,6 +54,7 @@ export default function App() {
   function resetGame() {
     setApiItems(shuffleArray(apiItems));
     setScore(0);
+    setClickedItems([]);
   }
 
   return (
