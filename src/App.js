@@ -9,6 +9,9 @@ export default function App() {
   const [clickedItems, setClickedItems] = useState([]);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
+  const [timer, setTimer] = useState("");
+  const [timerClicked, setTimerClicked] = useState(false);
+  const [gameStart, setGameStart] = useState(false);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -28,12 +31,13 @@ export default function App() {
 
   function handleClick(e) {
     const selected = e.target.closest(".card").getAttribute("value");
-
+    setGameStart(true);
+    setTimer(10);
     if (clickedItems.includes(selected)) {
       resetGame();
-      handleBestScore();
     } else {
       handleScore(selected);
+      setTimerClicked(true);
     }
   }
 
@@ -55,17 +59,63 @@ export default function App() {
     setApiItems(shuffleArray(apiItems));
     setScore(0);
     setClickedItems([]);
+    setTimerClicked(false);
+    handleBestScore();
+    setGameStart(false);
   }
 
   return (
     <div className="app">
       <Header score={score} bestScore={bestScore} />
-      <CardList apiItems={apiItems} onHandleClick={handleClick} />
+      <Timer timer={timer} gameStart={gameStart} />
+      <CardList
+        apiItems={apiItems}
+        onHandleClick={handleClick}
+        onSetTimer={setTimer}
+        timer={timer}
+        gameStart={gameStart}
+        onResetGame={resetGame}
+      />
     </div>
   );
 }
 
-function CardList({ apiItems, onHandleClick }) {
+function Timer({ timer, gameStart }) {
+  // useEffect(() => {
+  //   if (timer > 0 && timerClicked === true) {
+  //     setTimeout(() => onSetTimer((x) => x - 1), 1000);
+  //   } else if (timerClicked === false) {
+  //     onSetTimer("Click a card to start");
+  //   } else {
+  //     onSetTimer("");
+  //     onResetGame();
+  //     clearTimeout(timer);
+  //   }
+  // });
+
+  return <h2>{gameStart ? timer : "Click a card to start"}</h2>;
+}
+
+function CardList({
+  apiItems,
+  onHandleClick,
+  onSetTimer,
+  timer,
+  gameStart,
+  onResetGame,
+}) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timer > 0) {
+        onSetTimer((x) => x - 1);
+      } else if (gameStart) {
+        onResetGame();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
+
   return (
     <ul>
       {apiItems.map((item) => (
@@ -96,7 +146,7 @@ function Header({ score, bestScore }) {
 
       <div className="scoreBoard">
         <h4 className="currentScore">Current Score: {score}</h4>
-        <h4 className="bestScore">Best Score: {bestScore}</h4>
+        <h4 className="bestScore">Top Score: {bestScore}</h4>
       </div>
     </div>
   );
