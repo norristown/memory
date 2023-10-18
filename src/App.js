@@ -10,7 +10,6 @@ export default function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [timer, setTimer] = useState("");
-  const [timerClicked, setTimerClicked] = useState(false);
   const [gameStart, setGameStart] = useState(false);
 
   useEffect(() => {
@@ -32,12 +31,11 @@ export default function App() {
   function handleClick(e) {
     const selected = e.target.closest(".card").getAttribute("value");
     setGameStart(true);
-    setTimer(10);
+    setTimer(3);
     if (clickedItems.includes(selected)) {
       resetGame();
     } else {
       handleScore(selected);
-      setTimerClicked(true);
     }
   }
 
@@ -59,7 +57,6 @@ export default function App() {
     setApiItems(shuffleArray(apiItems));
     setScore(0);
     setClickedItems([]);
-    setTimerClicked(false);
     handleBestScore();
     setGameStart(false);
   }
@@ -67,7 +64,7 @@ export default function App() {
   return (
     <div className="app">
       <Header score={score} bestScore={bestScore} />
-      <Timer timer={timer} gameStart={gameStart} />
+      <Timer timer={timer} onSetTimer={setTimer} gameStart={gameStart} />
       <CardList
         apiItems={apiItems}
         onHandleClick={handleClick}
@@ -80,20 +77,17 @@ export default function App() {
   );
 }
 
-function Timer({ timer, gameStart }) {
-  // useEffect(() => {
-  //   if (timer > 0 && timerClicked === true) {
-  //     setTimeout(() => onSetTimer((x) => x - 1), 1000);
-  //   } else if (timerClicked === false) {
-  //     onSetTimer("Click a card to start");
-  //   } else {
-  //     onSetTimer("");
-  //     onResetGame();
-  //     clearTimeout(timer);
-  //   }
-  // });
-
-  return <h2>{gameStart ? timer : "Click a card to start"}</h2>;
+function Timer({ timer, gameStart, onSetTimer }) {
+  return (
+    <>
+      {gameStart ? (
+        <h2>{timer}</h2>
+      ) : (
+        // <SelectDifficulty onSetTimer={onSetTimer} timer={timer} />
+        <h2>Click a card to start</h2>
+      )}
+    </>
+  );
 }
 
 function CardList({
@@ -151,3 +145,16 @@ function Header({ score, bestScore }) {
     </div>
   );
 }
+
+// function SelectDifficulty({ onSetTimer, timer }) {
+//   return (
+//     <div>
+//       <h2>Select your difficulty</h2>
+//       <div className="btn-container">
+//         <button onClick={() => onSetTimer(5)}>Easy</button>
+//         <button onClick={() => onSetTimer(3)}>Normal</button>
+//         <button onClick={() => onSetTimer(1)}>Hard</button>
+//       </div>
+//     </div>
+//   );
+// }

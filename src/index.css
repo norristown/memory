@@ -35,9 +35,26 @@ h2 {
   /* width: 100%; */
 }
 
+h2 {
+  margin: 0;
+}
+
+.btn-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.8rem;
+}
+
 .scoreBoard {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
   gap: 1rem;
 }
 
