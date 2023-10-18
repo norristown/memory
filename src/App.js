@@ -140,7 +140,7 @@ function Header({ score, bestScore }) {
 
       <div className="scoreBoard">
         <h4 className="currentScore">Current Score: {score}</h4>
-        <h4 className="bestScore">Top Score: {bestScore}</h4>
+        <h4 className="bestScore">High Score: {bestScore}</h4>
       </div>
     </div>
   );
